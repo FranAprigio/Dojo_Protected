@@ -2,10 +2,6 @@ const axios = require('axios');
 const jwt = require("jsonwebtoken")
 const sanitizeHtml = require('sanitize-html');
 
-
-
-
-
 exports.errHandling = fn => (req, res, next) =>
 	Promise.resolve(fn(req, res, next)).catch(next);
 
@@ -24,7 +20,8 @@ exports.request = async (endPoint, method, data) => {
 	return { headers, res };
 };
 
-exports.sani = async sinit =>{
+	//FUNÇÃO DE SANITIZAR O HTML 
+exports.sanitize = async sinit =>{
 	return sanitizeHtml(sinit, {
 		allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
 		allowedAttributes: {
@@ -32,9 +29,9 @@ exports.sani = async sinit =>{
 		},
 		allowedIframeHostnames: ['www.youtube.com']
 	  });
-
 }
 
+	//FUNCAO JWT DE VERIFICAR TOKEN 
 exports.verifyToken = async token => {
 	return jwt.verify(
 		token,

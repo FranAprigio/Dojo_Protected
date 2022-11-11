@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const { errHandling } = require('../../utils/utils');
+const { errHandling, verifyToken } = require('../../utils/utils');
 const cookieParser = require('cookie-parser');
 const { updateUsername, getUserById } = require('../../service/service');
-const jwt = require("jsonwebtoken")
 
 router.use(cookieParser());
 
@@ -12,26 +11,14 @@ router.get(
 	'/broken_autentication',
 	errHandling(async (req, res) => {
 		const { token } = req.cookies;
-
-		const verify = jwt.verify(
-			token,
-			process.env.SECRETOKEN,
-			(err, decoded) => {
-			  if (err) {
-			  console.log(err.name, err.message);
-			  return false;
-			  } else return decoded.user_id;
-			}
-		  );
-		  
-		const usuarioNaoAutenticado = verify == false;
-
+		const user_id = await verifyToken(token)
+		const usuarioNaoAutenticado = user_id == false;
 		if (usuarioNaoAutenticado) {
 			res.render('user-not-authenticated');
 		} else {
-			const { rows } = await getUserById(verify);
+			const { rows } = await getUserById(user_id);
 			renderData.username = rows[0].username;
-			renderData.user_id = verify;
+			renderData.user_id = user_id;
 			res.render('broken_autentication', renderData);
 		}
 	})

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { errHandling, request, verifyToken } = require('../../utils/utils');
+const { errHandling, verifyToken } = require('../../utils/utils');
 const cookieParser = require('cookie-parser');
 const { render } = require('ejs');
 const { updateUsername, getUserById } = require('../../service/service');
@@ -12,8 +12,6 @@ router.get(
 	'/xss_armazenado',
 	errHandling(async (req, res) => {
 		const { token } = req.cookies;
-
-
 		const user_id = await verifyToken(token)
 		const usuarioNaoAutenticado = user_id == false;
 
@@ -34,7 +32,6 @@ router.get(
 		const { novo_username } = req.query;
 		//CRIA A VARIAVEI COM BASE NO QUE ESTA NOS COOKIES
 		const { token } = req.cookies;
-
 		const user_id = await verifyToken(token)	
 			//BUSCA NO BANCO DE DADOS SE O USUARIO EXISTE
 		const { rows } = await getUserById(user_id);

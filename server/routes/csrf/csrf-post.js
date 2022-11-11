@@ -5,7 +5,6 @@ const { getUserById, updateUsername } = require('../../service/service');
 const jwt = require("jsonwebtoken")
 const csurf = require("csurf")
 
-
 var csurfProtect = csurf({cookie:true})
 
 router.use(cookieParser());
@@ -15,13 +14,9 @@ const renderData = {};
 router.get(
 	'/csrf-post',
 	errHandling(async (req, res) => {
-
 		const { token } = req.cookies;
 		const user_id = await verifyToken(token)
-
-
 		const usuarioNaoAutenticado = user_id == false;
-
 		if (usuarioNaoAutenticado) {
 			res.render('user-not-authenticated');
 		} else {
@@ -40,7 +35,6 @@ router.post(
 		const { novo_username } = req.body;
 		//CRIA A VARIAVEI COM BASE NO QUE ESTA NOS COOKIES
 		const { token } = req.cookies;
-
 		const user_id = await verifyToken(token)	
 		//BUSCA NO BANCO DE DADOS SE O USUARIO EXISTE
 		const { rows } = await getUserById(user_id);

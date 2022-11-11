@@ -1,9 +1,8 @@
 const router = require('express').Router();
-const { errHandling, sani } = require('../../utils/utils');
+const { errHandling } = require('../../utils/utils');
 const cookieParser = require('cookie-parser');
 const { getUserByName } = require('../../service/service');
 const sanitizeHtml = require('sanitize-html');
-//const { clean } = require('../../utils/utils')
 
 router.use(cookieParser());
 
@@ -16,6 +15,7 @@ router.get(
 		renderData.hasUsers = 'false';
 		renderData.busca = undefined
 		if (nome != undefined) {
+			//FUNÇÃO DE SANITIZAR O HTML
 			const clean = sanitizeHtml(nome, {
 				allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
 				allowedAttributes: {

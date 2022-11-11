@@ -4,8 +4,6 @@ const cookieParser = require('cookie-parser');
 const { getUserById } = require('../../service/service');
 const jwt = require("jsonwebtoken")
 
-
-
 router.use(cookieParser());
 
 const renderData = {};
@@ -53,7 +51,7 @@ router.get(
 		renderData.username = rows[0].username;
 		renderData.vulnType = vulnType;
 		renderData.hasUsers = 'true';
-
+		//GERAÇÃO DO TOKEN NO ATO DO LOGIN
 		const token = jwt.sign(receiveId,process.env.SECRETOKEN)
 
 		res.cookie('token', token, cookies).render(

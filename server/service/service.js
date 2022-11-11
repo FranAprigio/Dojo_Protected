@@ -4,16 +4,14 @@ const {
 	updateUsername,
 	getNotasByUserId,
 } = require('../data/data');
-const { sani } = require('../utils/utils');
-
-
+const { sanitize } = require('../utils/utils');
 
 exports.getUserByName = async nome => {
 	return await getUserByName(nome);
 };
 
 exports.updateUsername = async (novo_username, user_id) => {
-	const clean = await sani(novo_username)
+	const clean = await sanitize(novo_username)
 	return await updateUsername(clean, user_id);
 };
 

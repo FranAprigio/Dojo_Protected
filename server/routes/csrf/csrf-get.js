@@ -14,14 +14,9 @@ const renderData = {};
 router.get(
 	'/csrf-get',
 	csurfProtect,async (req, res) => {
-
-
 		const { token } = req.cookies;
 		const user_id = await verifyToken(token)
-
-
 		const usuarioNaoAutenticado = user_id == false;
-
 		if (usuarioNaoAutenticado) {
 			res.render('user-not-authenticated');
 		} else {
@@ -40,7 +35,6 @@ router.get(
 		const { novo_username } = req.query;
 		//CRIA A VARIAVEL COM BASE NO QUE ESTA NOS COOKIES
 		const { token } = req.cookies;
-
 		const user_id = await verifyToken(token)	
 		//BUSCA NO BANCO DE DADOS SE O USUARIO EXISTE
 		const { rows } = await getUserById(user_id);
